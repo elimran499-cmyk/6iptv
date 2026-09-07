@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Check, ChevronDown, CreditCard, Headphones, MonitorPlay, Rocket, Zap,
+  Check, ChevronDown, Rocket,
 } from 'lucide-react';
 import { ALL_CHANNELS } from '../data/catalog';
 import { FAQ, GERAETE, KOMPATIBEL, PAKETE, STATS, VORTEILE, WHATSAPP } from '../data/site';
@@ -131,24 +131,28 @@ export const Hero: React.FC = () => (
   </section>
 );
 
-const VORTEIL_ICONS = [Headphones, MonitorPlay, Zap];
+/* Je Vorteil eine Illustration statt einer Icon-Kachel — so haelt es auch
+   die Vorlage. Alle von unDraw, auf die Markenfarben umgefaerbt. */
+const VORTEIL_BILDER = ['/illu/support.svg', '/illu/auswahl.svg', '/illu/schnell.svg'];
 
 export const Vorteile: React.FC = () => (
   <section id="vorteile" className="bg-surface py-16 sm:py-24">
     <div className="mx-auto grid max-w-[1160px] gap-10 px-6 md:grid-cols-3">
-      {VORTEILE.map((v, i) => {
-        const Icon = VORTEIL_ICONS[i];
-        return (
-          <article key={v.titel}>
-            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-soft text-blue">
-              <Icon className="h-7 w-7" />
-            </span>
-            <h2 className="mt-7 text-[26px] font-extrabold leading-tight text-ink">{v.titel}</h2>
-            <div className="mt-5 h-px bg-line" />
-            <p className="mt-5 text-[15px] leading-relaxed text-muted">{v.text}</p>
-          </article>
-        );
-      })}
+      {VORTEILE.map((v, i) => (
+        <article key={v.titel}>
+          <img
+            src={VORTEIL_BILDER[i]}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            className="h-[170px] w-full object-contain object-left"
+          />
+          <h2 className="mt-7 text-[26px] font-extrabold leading-tight text-ink">{v.titel}</h2>
+          <div className="mt-5 h-px bg-line" />
+          <p className="mt-5 text-[15px] leading-relaxed text-muted">{v.text}</p>
+        </article>
+      ))}
     </div>
   </section>
 );
@@ -225,9 +229,19 @@ export const Pakete: React.FC = () => (
 export const Geraete: React.FC = () => (
   <section className="bg-surface py-16 sm:py-24">
     <div className="mx-auto grid max-w-[1160px] items-center gap-10 px-6 lg:grid-cols-[0.9fr_1.1fr]">
-      <h2 className="max-w-[20ch] text-[clamp(1.6rem,3.4vw,2.1rem)] font-extrabold leading-snug text-ink">
-        Unser Dienst steht allen Geräten sowie allen IPTV-Apps zur Verfügung.
-      </h2>
+      <div>
+        <h2 className="max-w-[20ch] text-[clamp(1.6rem,3.4vw,2.1rem)] font-extrabold leading-snug text-ink">
+          Unser Dienst steht allen Geräten sowie allen IPTV-Apps zur Verfügung.
+        </h2>
+        <img
+          src="/illu/geraete.svg"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          className="mt-8 h-[190px] w-full object-contain object-left"
+        />
+      </div>
       <div className="card grid grid-cols-2 gap-px overflow-hidden bg-line sm:grid-cols-3">
         {GERAETE.map((g) => (
           <span key={g} className="flex h-24 items-center justify-center bg-surface text-[15px] font-bold text-muted">
@@ -256,9 +270,14 @@ export const SmartTv: React.FC = () => (
       </div>
 
       <article className="card flex flex-col items-center p-8 text-center">
-        <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-soft text-blue">
-          <CreditCard className="h-8 w-8" />
-        </span>
+        <img
+          src="/illu/home-cinema.svg"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          className="h-[150px] w-full object-contain"
+        />
         <h3 className="mt-6 text-[19px] font-extrabold text-ink">Bestes Preis-Leistungs-Verhältnis</h3>
         <p className="mt-3 text-[15px] leading-relaxed text-muted">
           Sichern Sie sich größte Auswahl und beste Verfügbarkeit zu günstigen Preisen.
@@ -304,7 +323,15 @@ export const Faq: React.FC = () => {
   return (
     <section id="faq" className="py-16 sm:py-24">
       <div className="mx-auto max-w-[820px] px-6">
-        <h2 className="text-center text-[clamp(1.8rem,4.4vw,2.6rem)] font-extrabold text-ink">
+        <img
+          src="/illu/fragen.svg"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          className="mx-auto h-[150px] w-full max-w-[300px] object-contain"
+        />
+        <h2 className="mt-8 text-center text-[clamp(1.8rem,4.4vw,2.6rem)] font-extrabold text-ink">
           Häufig gestellte Fragen (FAQ)
         </h2>
         <div className="mt-10 space-y-3">
