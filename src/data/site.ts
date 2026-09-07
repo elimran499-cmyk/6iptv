@@ -76,9 +76,10 @@ export const PAKETE = [
   },
   {
     badge: 'Am beliebtesten! 😍',
-    dauer: '365 Tage Premium IPTV',
+    // 12 Monate zahlen, 15 bekommen — deshalb "12+3" statt "365 Tage".
+    dauer: '12+3 Monate Premium IPTV',
     hervor: true,
-    preise: { 1: '144.99', 2: '199.99', 3: '249.99' } as Record<number, string>,
+    preise: { 1: '144.99', 2: '199.99', 3: '280.00' } as Record<number, string>,
     leistungen: LEISTUNGEN,
   },
   {
