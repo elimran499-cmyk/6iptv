@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {
-  Check, ChevronDown, Rocket,
+  Check, ChevronDown, Monitor, Rocket,
 } from 'lucide-react';
 import { ALL_CHANNELS } from '../data/catalog';
-import { FAQ, GERAETE, KOMPATIBEL, PAKETE, STATS, VORTEILE, WHATSAPP } from '../data/site';
+import { FAQ, GERAETE, GERAETE_OPTIONEN, KOMPATIBEL, PAKETE, STATS, VORTEILE, WHATSAPP } from '../data/site';
 import { PayMark } from './PayMarks';
 import { WhatsAppGlyph } from './Chrome';
 
@@ -157,74 +157,109 @@ export const Vorteile: React.FC = () => (
   </section>
 );
 
-export const Pakete: React.FC = () => (
-  <section id="pakete" className="py-16 sm:py-24">
-    <div className="mx-auto max-w-[1160px] px-6">
-      <div className="text-center">
-        <span className="inline-block rounded-md bg-blue-soft px-3 py-1.5 text-[13px] font-bold text-blue">
-          von Profis empfohlen
-        </span>
-        <h2 className="mx-auto mt-5 max-w-[16ch] text-[clamp(1.9rem,5vw,3rem)] font-extrabold leading-tight text-ink">
-          Wählen Sie Ihr Premium 6IPTV-Paket
-        </h2>
-      </div>
-
-      <div className="mt-12 grid gap-6 md:grid-cols-3">
-        {PAKETE.map((p) => (
-          <article
-            key={p.preis}
-            className={`relative flex flex-col rounded-2xl p-7 ${p.hervor ? 'text-white' : 'card'}`}
-            style={
-              p.hervor
-                ? { background: 'linear-gradient(160deg, var(--color-blue) 0%, var(--color-blue-deep) 100%)' }
-                : undefined
-            }
-          >
-            <p className={`text-[14px] font-bold ${p.hervor ? 'text-white/85' : 'text-muted'}`}>{p.badge}</p>
-            <h3 className="mt-3 flex items-baseline gap-1">
-              <span className="text-[40px] font-extrabold leading-none">€ {p.preis}</span>
-              <span className={`text-[15px] font-semibold ${p.hervor ? 'text-white/70' : 'text-muted'}`}>
-                /einmalig
-              </span>
-            </h3>
-            <p className={`mt-3 text-[15px] font-bold ${p.hervor ? 'text-white' : 'text-ink'}`}>{p.dauer}</p>
-
-            <ul className="mt-6 space-y-3.5">
-              {p.leistungen.map((l) => (
-                <li key={l} className={`flex items-center gap-2.5 text-[14.5px] ${p.hervor ? 'text-white/90' : 'text-ink'}`}>
-                  <Check className={`h-4 w-4 shrink-0 ${p.hervor ? 'text-white' : 'text-green'}`} />
-                  {l}
-                </li>
-              ))}
-            </ul>
-
-            <a
-              href={WHATSAPP.bestellung(p.dauer, p.preis)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`btn mt-7 w-full px-6 text-[15px] ${p.hervor ? 'bg-[#0b3aa0] text-white hover:bg-[#092e80]' : 'btn-blue'}`}
-            >
-              <WhatsAppGlyph className="h-4 w-4" /> Jetzt bestellen!
-            </a>
-          </article>
-        ))}
-      </div>
-
-      {/* Zahlungsarten in blauer Kontur, wie im Vorbild — als eigene SVGs
-          gezeichnet, nicht als fremde Bilddateien uebernommen. */}
-      <div className="mt-12 flex flex-wrap items-center justify-center gap-5">
-        {(['paypal', 'visa', 'mastercard', 'paysafecard', 'amazon', 'sofort'] as const).map((m) => (
-          <span
-            key={m}
-            className="flex h-16 w-[122px] items-center justify-center rounded-xl border-2 border-blue/35 bg-surface px-3"
-          >
-            <PayMark name={m} />
+export const Pakete: React.FC = () => {
+  const [geraete, setGeraete] = useState<number>(1);
+  return (
+    <section id="pakete" className="py-16 sm:py-24">
+      <div className="mx-auto max-w-[1160px] px-6">
+        <div className="text-center">
+          <span className="inline-block rounded-md bg-blue-soft px-3 py-1.5 text-[13px] font-bold text-blue">
+            von Profis empfohlen
           </span>
-        ))}
+          <h2 className="mx-auto mt-5 max-w-[16ch] text-[clamp(1.9rem,5vw,3rem)] font-extrabold leading-tight text-ink">
+            Wählen Sie Ihr Premium 6IPTV-Paket
+          </h2>
+
+          {/* Geraeteumschalter: alle drei Karten zeigen danach den Preis fuer
+              die gewaehlte Anzahl gleichzeitiger Verbindungen. */}
+          <p className="mt-8 text-[13px] font-bold uppercase tracking-[0.16em] text-muted">
+            Wie viele Geräte gleichzeitig?
+          </p>
+          <div className="mt-4 inline-flex rounded-xl border border-line bg-surface p-1">
+            {GERAETE_OPTIONEN.map((n) => {
+              const aktiv = geraete === n;
+              return (
+                <button
+                  key={n}
+                  type="button"
+                  aria-pressed={aktiv}
+                  onClick={() => setGeraete(n)}
+                  className={`flex min-h-[44px] items-center gap-2 rounded-lg px-5 text-[14.5px] font-bold transition-colors ${
+                    aktiv ? 'btn-blue' : 'text-muted hover:text-ink'
+                  }`}
+                >
+                  <Monitor className="h-4 w-4" />
+                  {n} {n === 1 ? 'Gerät' : 'Geräte'}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {PAKETE.map((p) => {
+            const preis = p.preise[geraete];
+            return (
+              <article
+                key={p.dauer}
+                className={`relative flex flex-col rounded-2xl p-7 ${p.hervor ? 'text-white' : 'card'}`}
+                style={
+                  p.hervor
+                    ? { background: 'linear-gradient(160deg, var(--color-blue) 0%, var(--color-blue-deep) 100%)' }
+                    : undefined
+                }
+              >
+                <p className={`text-[14px] font-bold ${p.hervor ? 'text-white/85' : 'text-muted'}`}>{p.badge}</p>
+                <h3 className="mt-3 flex items-baseline gap-1">
+                  <span className="text-[40px] font-extrabold leading-none">€ {preis}</span>
+                  <span className={`text-[15px] font-semibold ${p.hervor ? 'text-white/70' : 'text-muted'}`}>
+                    /einmalig
+                  </span>
+                </h3>
+                <p className={`mt-3 text-[15px] font-bold ${p.hervor ? 'text-white' : 'text-ink'}`}>{p.dauer}</p>
+                <p className={`mt-1 flex items-center gap-1.5 text-[13.5px] ${p.hervor ? 'text-white/75' : 'text-muted'}`}>
+                  <Monitor className="h-3.5 w-3.5" />
+                  {geraete} {geraete === 1 ? 'Gerät' : 'Geräte'} gleichzeitig
+                </p>
+
+                <ul className="mt-6 space-y-3.5">
+                  {p.leistungen.map((l) => (
+                    <li key={l} className={`flex items-center gap-2.5 text-[14.5px] ${p.hervor ? 'text-white/90' : 'text-ink'}`}>
+                      <Check className={`h-4 w-4 shrink-0 ${p.hervor ? 'text-white' : 'text-green'}`} />
+                      {l}
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href={WHATSAPP.bestellung(p.dauer, preis, geraete)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`btn mt-7 w-full px-6 text-[15px] ${p.hervor ? 'bg-[#0b3aa0] text-white hover:bg-[#092e80]' : 'btn-blue'}`}
+                >
+                  <WhatsAppGlyph className="h-4 w-4" /> Jetzt bestellen!
+                </a>
+              </article>
+            );
+          })}
+        </div>
+
+        {/* Zahlungsarten in blauer Kontur, wie im Vorbild — als eigene SVGs
+            gezeichnet, nicht als fremde Bilddateien uebernommen. */}
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-5">
+          {(['paypal', 'visa', 'mastercard', 'paysafecard', 'amazon', 'sofort'] as const).map((m) => (
+            <span
+              key={m}
+              className="flex h-16 w-[122px] items-center justify-center rounded-xl border-2 border-blue/35 bg-surface px-3"
+            >
+              <PayMark name={m} />
+            </span>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export const Geraete: React.FC = () => (
   <section className="bg-surface py-16 sm:py-24">

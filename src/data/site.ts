@@ -18,10 +18,11 @@ export const NAV = [
 const NUMMER = '447832486269';
 export const WHATSAPP = {
   chat: `https://wa.me/${NUMMER}`,
-  bestellung: (paket: string, preis: string) =>
+  bestellung: (paket: string, preis: string, geraete: number) =>
     `https://wa.me/${NUMMER}?text=` +
     encodeURIComponent(
-      `Hallo 6IPTV, ich möchte das Paket "${paket}" für € ${preis} bestellen. ` +
+      `Hallo 6IPTV, ich möchte das Paket "${paket}" für ${geraete} ` +
+        `${geraete === 1 ? 'Gerät' : 'Geräte'} gleichzeitig für € ${preis} bestellen. ` +
         `Können Sie mir die Zahlungsdaten und die Aktivierungsschritte schicken?`,
     ),
 };
@@ -52,10 +53,41 @@ const LEISTUNGEN = [
   'Kostenloser VPN Zugang',
 ];
 
+/**
+ * Pakete nach Laufzeit, Preis je Anzahl gleichzeitiger Geraete.
+ *
+ * `preise` ist nach Geraetezahl indiziert (1, 2, 3). Der Aufschlag faellt
+ * mit jedem weiteren Geraet geringer aus — ueblich in diesem Markt und der
+ * Grund, warum das dritte Geraet nicht das Dreifache kostet.
+ *
+ * Nur die Ein-Geraete-Spalte ist vorgegeben; die Preise fuer zwei und drei
+ * Geraete sind gesetzt, nicht abgestimmt. Hier anpassen, sonst nirgends —
+ * Karten und WhatsApp-Nachricht lesen dieselben Werte.
+ */
+export const GERAETE_OPTIONEN = [1, 2, 3] as const;
+
 export const PAKETE = [
-  { badge: 'niederigster Preis! 😃', preis: '19.99', dauer: '30 Tage Premium IPTV', hervor: false, leistungen: LEISTUNGEN },
-  { badge: 'Am beliebtesten! 😍', preis: '144.99', dauer: '365 Tage Premium IPTV', hervor: true, leistungen: LEISTUNGEN },
-  { badge: 'für Einsteiger! 🌠', preis: '44.99', dauer: '90 Tage Premium IPTV', hervor: false, leistungen: LEISTUNGEN },
+  {
+    badge: 'niederigster Preis! 😃',
+    dauer: '30 Tage Premium IPTV',
+    hervor: false,
+    preise: { 1: '19.99', 2: '29.99', 3: '39.99' } as Record<number, string>,
+    leistungen: LEISTUNGEN,
+  },
+  {
+    badge: 'Am beliebtesten! 😍',
+    dauer: '365 Tage Premium IPTV',
+    hervor: true,
+    preise: { 1: '144.99', 2: '199.99', 3: '249.99' } as Record<number, string>,
+    leistungen: LEISTUNGEN,
+  },
+  {
+    badge: 'für Einsteiger! 🌠',
+    dauer: '90 Tage Premium IPTV',
+    hervor: false,
+    preise: { 1: '44.99', 2: '64.99', 3: '84.99' } as Record<number, string>,
+    leistungen: LEISTUNGEN,
+  },
 ];
 
 export const ZAHLUNG = ['PayPal', 'VISA', 'Mastercard', 'paysafecard', 'Amazon', 'SOFORT'];
