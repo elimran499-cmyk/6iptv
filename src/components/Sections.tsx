@@ -65,6 +65,21 @@ export const Hero: React.FC = () => (
         </div>
       </div>
 
+      <div className="mx-auto w-full max-w-[470px]">
+        {/* Illustration von unDraw (undraw.co) — frei fuer kommerzielle
+            Nutzung, keine Namensnennung noetig. Der Akzent der Vorlage
+            (#6c63ff) ist auf das Markenblau umgefaerbt, das dunkle Violett
+            auf das Navy der Wortmarke; sonst staende sie farblich neben
+            der Seite. Die Originalillustration von 6iptv.com ist lizenzierte
+            Stockgrafik und wurde nicht uebernommen. */}
+        <img
+          src="/illu/movie-night.svg"
+          alt="Familie schaut gemeinsam fern"
+          loading="eager"
+          decoding="async"
+          className="mb-6 w-full"
+        />
+
       {/* Senderwand im Geraeterahmen — laufend statt statisch. */}
       <div
         className="wall relative mx-auto w-full max-w-[430px] rounded-[1.75rem] p-3.5 shadow-[0_30px_60px_-30px_rgba(19,36,68,.55)]"
@@ -110,6 +125,7 @@ export const Hero: React.FC = () => (
             <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green" />
           </span>
         </div>
+      </div>
       </div>
     </div>
   </section>
