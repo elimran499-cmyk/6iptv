@@ -53,9 +53,9 @@ const LEISTUNGEN = [
 ];
 
 export const PAKETE = [
-  { badge: 'niederigster Preis! 😃', preis: '24.99', dauer: '30 Tage Premium IPTV', hervor: false, leistungen: LEISTUNGEN },
+  { badge: 'niederigster Preis! 😃', preis: '19.99', dauer: '30 Tage Premium IPTV', hervor: false, leistungen: LEISTUNGEN },
   { badge: 'Am beliebtesten! 😍', preis: '144.99', dauer: '365 Tage Premium IPTV', hervor: true, leistungen: LEISTUNGEN },
-  { badge: 'für Einsteiger! 🌠', preis: '51.99', dauer: '90 Tage Premium IPTV', hervor: false, leistungen: LEISTUNGEN },
+  { badge: 'für Einsteiger! 🌠', preis: '44.99', dauer: '90 Tage Premium IPTV', hervor: false, leistungen: LEISTUNGEN },
 ];
 
 export const ZAHLUNG = ['PayPal', 'VISA', 'Mastercard', 'paysafecard', 'Amazon', 'SOFORT'];
