@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+/* Manrope, selbst gehostet (SIL Open Font License). Variable Achse 200–800,
+   dieselbe Schrift, die 6iptv.com verwendet. */
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/fonts/manrope-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@theme {
+  /* 6IPTV — cremefarbener Grund, weisse Karten, Blau als einziger kraeftiger
+     Akzent, dazu das Lachsrot des Login-Buttons. Werte aus den berechneten
+     Stilen der Vorlage uebernommen. */
+  --color-cream: #fff7ef;
+  --color-surface: #ffffff;
+  --color-line: #ece3db;
+
+  --color-blue: #1b70ff;
+  --color-blue-deep: #0b4fd0;
+  --color-blue-soft: #eaf1ff;
+  --color-salmon: #d76d75;
+  --color-salmon-deep: #c2545d;
+
+  --color-ink: #333333;
+  --color-muted: #6b6b6b;
+  --color-green: #68a885;
+
+  --font-sans: "Manrope", -apple-system, system-ui, "Segoe UI", Roboto,
+    "Helvetica Neue", sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { letter-spacing: -0.01em; }
+}
+
+@layer utilities {
+  /* Schwebende Kopfzeile: weisse Karte mit weichem Schatten, wie im Vorbild. */
+  .nav-card {
+    background: var(--color-surface);
+    box-shadow: 0 10px 40px -18px rgba(0, 0, 0, 0.18);
+  }
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    border-radius: 0.6rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-salmon { background: var(--color-salmon); color: #fff; }
+  .btn-salmon:hover { background: var(--color-salmon-deep); }
+  .btn-blue { background: var(--color-blue); color: #fff; }
+  .btn-blue:hover { background: var(--color-blue-deep); }
+  .btn-soft { background: var(--color-blue-soft); color: var(--color-blue); }
+
+  /* Der grosse, weich auslaufende Cremekeil hinter dem Hero. */
+  .hero-wedge {
+    position: absolute;
+    inset: 0;
+    background: var(--color-cream);
+    clip-path: polygon(0 0, 100% 0, 100% 62%, 50% 100%, 0 62%);
+  }
+}
+
+/* ---- Laufbaender: Sender und Poster ------------------------------------
+   Die Spur wird im DOM verdoppelt, damit translateX(-50%) exakt auf der
+   Kopie landet und die Schleife nahtlos wirkt. Bei Hover/Fokus haelt sie an,
+   unter `prefers-reduced-motion` laeuft sie gar nicht erst. */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+.marquee-track { animation: marquee-left 38s linear infinite; }
+.marquee-track-reverse { animation-name: marquee-right; }
+.marquee-row:hover .marquee-track,
+.marquee-row:focus-within .marquee-track { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none !important; }
+}
+
+/* Waagerechte Schiene als Rueckfall ohne Animation. */
+.rail-snap {
+  scroll-snap-type: x proximity;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.rail-snap::-webkit-scrollbar { display: none; }
+.rail-snap > * { scroll-snap-align: start; }
+
+/* Weiche Kanten an den Laufbaendern: die Spur laeuft aus, statt am
+   Viewportrand hart abgeschnitten zu werden. -webkit- fuer Safari. */
+.edge-fade {
+  -webkit-mask-image: linear-gradient(
+    90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+  mask-image: linear-gradient(
+    90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+}
+
+/* Kachel-Anhebung beim Zeigen — nur transform/box-shadow, damit nichts
+   neu gelayoutet wird. */
+.tile-lift {
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+.tile-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 36px -18px rgba(19, 36, 68, 0.45);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tile-lift { transition: none; }
+  .tile-lift:hover { transform: none; }
+}
+
+/* Blauer Marker unter den fetten Hero-Zeilen — wie mit dem Textmarker
+   gezogen: ein Verlauf, der erst unterhalb der Grundlinie einsetzt, damit
+   die Schrift oben frei bleibt. `box-decoration-break` sorgt dafuer, dass
+   der Balken bei Zeilenumbruch auf jeder Zeile neu ansetzt. */
+.marker {
+  background-image: linear-gradient(
+    transparent 74%,
+    var(--color-blue) 74%,
+    var(--color-blue) 92%,
+    transparent 92%
+  );
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Hero-Senderwand: drei Spalten driften vertikal, die mittlere gegenlaeufig.
+   Die Spur ist im DOM verdoppelt, damit translateY(-50%) auf der Kopie
+   landet. Oben und unten ausgeblendet, damit die Kacheln nicht hart am
+   Rahmen abreissen. */
+@keyframes wall-up   { from { transform: translateY(0); }     to { transform: translateY(-50%); } }
+@keyframes wall-down { from { transform: translateY(-50%); }  to { transform: translateY(0); } }
+
+.wall-col { animation: wall-up linear infinite; }
+.wall-col-reverse { animation-name: wall-down; }
+.wall:hover .wall-col, .wall:focus-within .wall-col { animation-play-state: paused; }
+.wall-mask {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .wall-col { animation: none !important; }
+}
