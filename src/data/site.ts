@@ -98,15 +98,15 @@ export const GERAETE = ['Formuler', 'Infomir', 'Smart IPTV', 'Android TV', 'Fire
 export const KOMPATIBEL = [
   {
     titel: 'Android-Geräte',
-    text: 'Smartphones, Tablets, Android-TV-Boxen und Sticks — etwa der Formuler Z11 Pro Max. Einfach die IPTV-App installieren und die Zugangsdaten eintragen.',
+    text: 'Smartphones, Tablets, Android-TV-Boxen und Sticks — etwa der Formuler Z11 Pro Max. Einfach eine IPTV-App wie IPTV Smarters Pro oder TiviMate installieren und die Zugangsdaten eintragen.',
   },
   {
     titel: 'Enigma2-Geräte',
-    text: 'Receiver mit Enigma2 binden unser Angebot über M3U oder Xtream ein. Die Einrichtung dauert wenige Minuten, unser Support begleitet Sie dabei.',
+    text: 'Receiver mit Enigma2 binden unser Angebot über M3U-Playlist oder Xtream Codes ein — inklusive EPG mit vollständiger Programmvorschau. Die Einrichtung dauert wenige Minuten, unser Support begleitet Sie mit einer deutschen Anleitung.',
   },
   {
     titel: 'Andere Geräte',
-    text: 'Smart TVs von Samsung und LG, MAG-Boxen, Windows und macOS, iPhone und iPad. Unser Dienst steht allen gängigen IPTV-Apps zur Verfügung.',
+    text: 'Smart TVs von Samsung und LG, MAG-Boxen, Windows und macOS, iPhone und iPad. Unser Dienst läuft mit allen gängigen IPTV-Apps — darunter Smart IPTV, IBO Player und Duplex Play.',
   },
 ];
 

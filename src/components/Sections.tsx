@@ -23,12 +23,11 @@ export const Hero: React.FC = () => (
     <div className="relative mx-auto grid max-w-[1160px] items-center gap-12 px-6 pb-20 pt-8 sm:pt-12 lg:grid-cols-[1.05fr_0.95fr]">
       <div>
         <h1 className="max-w-[15ch] text-[clamp(2rem,4.6vw,3.5rem)] font-normal leading-[1.3] text-ink">
-          Keine Lust auf Bufferings und Freezer?
+          <strong className="marker font-extrabold">IPTV Anbieter Deutschland</strong>
           <br />
-          <strong className="marker font-extrabold">6IPTV ist die Lösung!</strong>
+          6IPTV — ohne Bufferings und Freezer,
           <br />
-          Sie werden Teil des{' '}
-          <strong className="marker font-extrabold">stabilsten Netzwerks</strong> der Welt 🌍
+          im <strong className="marker font-extrabold">stabilsten Netzwerk</strong> der{'\u00A0'}Welt{'\u00A0'}🌍
         </h1>
 
         <p className="mt-7 text-[15px] font-extrabold text-ink">
