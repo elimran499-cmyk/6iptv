@@ -15,7 +15,7 @@ export const NAV = [
  * den Schwesterseiten. `wa.me` braucht sie in E.164 ohne Leerzeichen und
  * ohne fuehrendes Plus; sie steht nur hier.
  */
-const NUMMER = '447414662070';
+const NUMMER = '447832486269';
 export const WHATSAPP = {
   chat: `https://wa.me/${NUMMER}`,
   bestellung: (paket: string, preis: string, geraete: number) =>
