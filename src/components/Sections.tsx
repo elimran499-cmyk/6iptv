@@ -230,7 +230,7 @@ export const Pakete: React.FC = () => {
                   ))}
                 </ul>
 
-                <a
+                <a data-cta="order"
                   href={WHATSAPP.bestellung(p.dauer, preis, geraete)}
                   target="_blank"
                   rel="noopener noreferrer"
